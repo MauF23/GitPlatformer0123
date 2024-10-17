@@ -12,20 +12,22 @@ public class Fader : MonoBehaviour
 	public float fadeOutWaitTime;
 	public float fadeTime;
 	public float endValue;
+	private int sceneToLoad;
 
 	private void Start()
 	{
 		StartCoroutine(FadeOut(fadeOutWaitTime));
 	}
 
-	public void FadeIn()
+	public void FadeInToScene(int sceneIndex)
 	{
+		sceneToLoad = sceneIndex;
 		image.DOFade(1, fadeTime).OnComplete(SceneChange);
 	}
 
 	public void SceneChange()
 	{
-		SceneManager.LoadScene(1);
+		SceneManager.LoadScene(sceneToLoad);
 	}
 
 	public IEnumerator FadeOut(float waitTime)

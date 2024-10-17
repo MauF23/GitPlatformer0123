@@ -7,6 +7,7 @@ public class CoinChecker : MonoBehaviour
 {
 	public KeyCode triggerKey;
 	public int coinsToGet = 1;
+	public int sceneToLoad;
 	private GameObject player;
 	private GameManager gameManager;
 
@@ -18,7 +19,7 @@ public class CoinChecker : MonoBehaviour
 	{
 		if (gameManager.coinsCounter >= coinsToGet)
 		{
-			gameManager.fader.FadeIn();
+			gameManager.fader.FadeInToScene(sceneToLoad);
 		}
 	}
 }

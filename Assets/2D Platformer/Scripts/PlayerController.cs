@@ -10,7 +10,9 @@ namespace Platformer
 		public float jumpForce;
 		private float moveInput;
 
-		private bool facingRight = false;
+		public bool facingRight { get { return _facingRight; } private set { _facingRight = value; } }
+		private bool _facingRight;
+
 		[HideInInspector]
 		public bool deathState = false;
 

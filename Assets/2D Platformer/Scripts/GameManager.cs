@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting.Dependencies.NCalc;
+
 
 namespace Platformer
 {
@@ -62,7 +62,7 @@ namespace Platformer
 
 		private void ReloadLevel()
 		{
-			Application.LoadLevel(Application.loadedLevel);
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 
 		public void GameOver()

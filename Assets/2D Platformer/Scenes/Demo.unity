@@ -304,7 +304,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerKey: 9
-  coinsToGet: 2
+  coinsToGet: 3
+  sceneToLoad: 1
 --- !u!4 &187974458
 Transform:
   m_ObjectHideFlags: 0
@@ -19556,7 +19557,7 @@ GameObject:
   - component: {fileID: 919714142}
   - component: {fileID: 919714144}
   m_Layer: 5
-  m_Name: FaderImage+
+  m_Name: FaderImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20776,6 +20777,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 1506508267755725130, guid: 09350495185a66d478dc21270686bf1b, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 1506508267755725131, guid: 09350495185a66d478dc21270686bf1b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -21253,6 +21258,10 @@ PrefabInstance:
       propertyPath: coinText
       value: 
       objectReference: {fileID: 1163444921}
+    - target: {fileID: 8125563719255511135, guid: 6cdb5ef6764ef30448310aba99d170e7, type: 3}
+      propertyPath: secondLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8125563719255511135, guid: 6cdb5ef6764ef30448310aba99d170e7, type: 3}
       propertyPath: playerGameObject
       value: 
