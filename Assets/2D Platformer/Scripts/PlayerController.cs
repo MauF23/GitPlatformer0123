@@ -13,9 +13,6 @@ namespace Platformer
 		public bool facingRight { get { return _facingRight; } private set { _facingRight = value; } }
 		private bool _facingRight;
 
-		[HideInInspector]
-		public bool deathState = false;
-
 		private bool isGrounded;
 		public Transform groundCheck;
 		public Hp hp;
@@ -106,7 +103,7 @@ namespace Platformer
 		{
 			if (other.transform.CompareTag("Coin"))
 			{
-				gameManager.coinsCounter += 1;
+				CoinChecker.instance.coinCounter++;
 				Destroy(other.gameObject);
 			}
 		}

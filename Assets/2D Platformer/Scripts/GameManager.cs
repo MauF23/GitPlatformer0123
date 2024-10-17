@@ -9,14 +9,13 @@ namespace Platformer
 {
 	public class GameManager : MonoBehaviour
 	{
-		public int coinsCounter = 0;
-
 		public GameObject playerGameObject;
-		private PlayerController player;
+		public PlayerController player;
 		public GameObject deathPlayerPrefab;
-		public GameObject test;
 		public Text coinText;
-		public Fader fader;
+		public Fader fader; 
+
+
 		public static GameManager instance;
 		public int hp 
 		{
@@ -46,23 +45,22 @@ namespace Platformer
 				Destroy(gameObject);
 			}
 		}
-		void Start()
-		{
-			player = GameObject.Find("Player").GetComponent<PlayerController>();
-		}
-
-		void Update()
-		{
-			coinText.text = coinsCounter.ToString();
-			if (Input.GetKeyDown(KeyCode.P))
-			{
-				SceneManager.LoadScene(1);
-			}
-		}
 
 		private void ReloadLevel()
 		{
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			LoadScene(SceneManager.GetActiveScene().buildIndex);
+		}
+
+		public void LoadScene(int level)
+		{
+			fader.FadeInToScene(level);
+		}
+
+		public void ResetPlayer()
+		{
+			coinText.text = 0.ToString();
+			playerGameObject.SetActive(true);
+			player.hp.Revive();
 		}
 
 		public void GameOver()
@@ -70,8 +68,7 @@ namespace Platformer
 			playerGameObject.SetActive(false);
 			GameObject deathPlayer = Instantiate(deathPlayerPrefab, playerGameObject.transform.position, playerGameObject.transform.rotation);
 			deathPlayer.transform.localScale = new Vector3(playerGameObject.transform.localScale.x, playerGameObject.transform.localScale.y, playerGameObject.transform.localScale.z);
-			player.deathState = false;
-			Invoke("ReloadLevel", 3);
+			ReloadLevel();
 		}
 	}
 }
