@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 namespace Platformer
@@ -14,6 +15,9 @@ namespace Platformer
 		private bool _facingRight;
 
 		private bool isGrounded;
+
+		//Si es true, el jugador no se moverá
+		private bool movementBlocked;
 		public Transform groundCheck;
 		public Hp hp;
 
@@ -35,8 +39,18 @@ namespace Platformer
 			CheckGround();
 		}
 
+		//private int Suma(int num1, int num2)
+		//{
+		//	return num1 + num2;
+		//}
+
 		void Update()
 		{
+			if (movementBlocked) //movementBlocked == true
+			{
+				return;
+			}
+
 			if (Input.GetButton("Horizontal"))
 			{
 				moveInput = Input.GetAxis("Horizontal");
@@ -71,6 +85,11 @@ namespace Platformer
 			{
 				Flip();
 			}
+		}
+
+		public void BlockMovement(bool value)
+		{
+			movementBlocked = value;
 		}
 
 		private void Flip()
