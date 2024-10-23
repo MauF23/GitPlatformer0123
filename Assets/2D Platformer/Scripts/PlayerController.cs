@@ -20,8 +20,9 @@ namespace Platformer
 		private bool movementBlocked;
 		public Transform groundCheck;
 		public Hp hp;
+		public LayerMask ground;
 
-		private Rigidbody2D rigidbody;
+		public Rigidbody2D rigidbody;
 		private Animator animator;
 		private GameManager gameManager;
 		private int jumpCounter = 0;
@@ -102,7 +103,7 @@ namespace Platformer
 
 		private void CheckGround()
 		{
-			Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.transform.position, 0.2f);
+			Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.transform.position, 0.2f, ground);
 			isGrounded = colliders.Length > 1;
 			if (isGrounded)
 			{
