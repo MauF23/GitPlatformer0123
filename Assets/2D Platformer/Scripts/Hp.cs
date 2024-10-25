@@ -9,11 +9,11 @@ using UnityEngine;
 
 public class Hp : MonoBehaviour
 {
-    public int maxHp;
+	public int maxHp;
 	public int currentHp
 	{
-		get { return _currentHp; } 
-		private set { _currentHp = value; } 
+		get { return _currentHp; }
+		private set { _currentHp = value; }
 	}
 	public SpriteRenderer spriteRenderer;
 	public Color damageColor;
@@ -25,17 +25,19 @@ public class Hp : MonoBehaviour
 	[SerializeField]
 	private int _currentHp;
 	private GameManager gameManager;
+	private CameraManager cameraManager;
 	private HeartUi heartUi;
 
 	void Start()
-    {
+	{
 		gameManager = GameManager.instance;
+		cameraManager = CameraManager.instance;
 		currentHp = maxHp;
 		heartUi = HeartUi.instance;
 		heartUi?.InstantiateHearts(maxHp);
 	}
 
-    public void ReduceHp(int amount)
+	public void ReduceHp(int amount)
 	{
 		currentHp -= amount;
 		currentHp = Mathf.Clamp(currentHp, 0, maxHp);
@@ -43,6 +45,7 @@ public class Hp : MonoBehaviour
 
 		//Efecto de daño por Tween
 		spriteRenderer.DOColor(damageColor, damageTweenTime).SetLoops(2, LoopType.Yoyo).OnStart(StunPlayer).OnComplete(EndStunPlayer);
+		cameraManager.DamageShake();
 
 		//Aplicar efecto de Knokback
 		Knockback();
@@ -61,14 +64,14 @@ public class Hp : MonoBehaviour
 
 	private void Knockback()
 	{
-		Vector2 direction = Vector2.zero; 
+		Vector2 direction = Vector2.zero;
 
 		//Determinar a donde esta viendo el jugador para aplicar la fuerza de knobckack en la dirección opuesta
 		if (gameManager.player.facingRight)
 		{
 			direction = Vector2.left;
 		}
-		else 
+		else
 		{
 			direction = Vector2.right;
 		}
