@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using DG.Tweening;
 
 namespace Platformer
 {
@@ -13,7 +13,10 @@ namespace Platformer
 		public PlayerController player;
 		public GameObject deathPlayerPrefab;
 		public Text coinText;
-		public Fader fader; 
+		public Fader fader;
+		public CanvasGroup canvasGroup;
+		public KeyCode pauseKey;
+		private bool paused;
 
 
 		public static GameManager instance;
@@ -33,6 +36,7 @@ namespace Platformer
 
 		private void Awake()
 		{
+			paused = false;
 			DontDestroyOnLoad(gameObject);
 
 			//Asegurarse que si ya existe el manager, que solo haya una instancia
@@ -43,6 +47,31 @@ namespace Platformer
 			else
 			{
 				Destroy(gameObject);
+			}
+		}
+
+		private void Update()
+		{
+			if (Input.GetKeyDown(pauseKey))
+			{
+				TogglePause();
+			}
+		}
+
+
+		public void TogglePause()
+		{
+			paused = !paused;
+
+			if (paused)
+			{
+				canvasGroup.DOFade(0.5f, 0.25f).SetUpdate(true);
+				Time.timeScale = 0;
+			}
+			else
+			{
+				canvasGroup.DOFade(0, 0.25f).SetUpdate(true);
+				Time.timeScale = 1;
 			}
 		}
 
