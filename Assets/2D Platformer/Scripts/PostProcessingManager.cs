@@ -1,13 +1,19 @@
-using DG.Tweening;
+﻿using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class PostProcessingManager : MonoBehaviour
 {
 	public Volume volume;
+	public Vignette vignette;
 	private ChromaticAberration chromaticAberration;
-	private Tween chromaticTween;
+	public Image deathImage;
+	private Tween vignetteTween;
+	public string theName;
+	private Action action;
 	public static PostProcessingManager instance;
 
 	private void Awake()
@@ -23,35 +29,57 @@ public class PostProcessingManager : MonoBehaviour
 		GetPostProcessFx();
 	}
 
-	//public void TweenChromaticAberration(float endVale, float tweenTime, bool yoyo)
-	//{
-	//	if (chromaticAberration != null)
-	//	{
-	//		int loops = yoyo ? 2 : 1;
+	public void TweenVigenette(float intensity, float tweenTime, bool isDead)
+	{
+		Action action = () =>
+		{
+			if (isDead)
+			{
+				deathImage.DOFade(1, 0.15F);
+				Debug.Log("DEAAAD");
+			}
+		};
 
-	//		chromaticTween = DOTween.To
-	//		(
-	//			() => chromaticAberration.intensity.value, //MyGetter
-	//			x => chromaticAberration.intensity.value = x,//MySetter
-	//			endVale,
-	//			tweenTime
-	//		).SetLoops(loops, LoopType.Yoyo);
-	//	}
-	//}
+		if(vignetteTween != null)
+		{
+			vignetteTween.Kill();
+		}
+
+		if (!isDead)
+		{
+			vignetteTween = DOTween.To(() => vignette.intensity.value, x => vignette.intensity.value = x, intensity, tweenTime);
+			vignetteTween.SetLoops(2, LoopType.Yoyo);
+		}
+		else
+		{
+			vignetteTween = DOTween.To(() => vignette.intensity.value, x => vignette.intensity.value = x, intensity, tweenTime);
+			vignetteTween.SetLoops(0);
+			vignetteTween.OnComplete(action.Invoke);	
+		}
+		
+
+		//DOTween.To(()=> chromaticAberration.intensity.value, x => chromaticAberration.intensity.value = x, 0.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
+	}
+
+	private void GetName()
+	{
+		theName = transform.name;
+	}
 
 	private void GetPostProcessFx()
 	{
+		volume.profile.TryGet(out vignette);
 		volume.profile.TryGet(out chromaticAberration);
 	}
 
-	float MyGetter()
+	float VigentteGetter()
 	{
-		return chromaticAberration.intensity.value;
+		return vignette.intensity.value;
 	}
 
-	void MySetter(float targetValue)
+	void VigentteSetter(float targetValue)
 	{
-		chromaticAberration.intensity.value = targetValue;
+		vignette.intensity.value = targetValue;
 	}
 
 	//void Example()

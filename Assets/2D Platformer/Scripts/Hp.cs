@@ -21,17 +21,20 @@ public class Hp : MonoBehaviour
 
 	public Rigidbody2D rigidbody;
 	public float knockbackForce;
+	private float damageEffectModifier = 0;
 
 	[SerializeField]
 	private int _currentHp;
 	private GameManager gameManager;
 	private CameraManager cameraManager;
+	private PostProcessingManager postProcessingManager;
 	private HeartUi heartUi;
 
 	void Start()
 	{
 		gameManager = GameManager.instance;
 		cameraManager = CameraManager.instance;
+		postProcessingManager = PostProcessingManager.instance;
 		currentHp = maxHp;
 		heartUi = HeartUi.instance;
 		heartUi?.InstantiateHearts(maxHp);
@@ -46,12 +49,15 @@ public class Hp : MonoBehaviour
 		//Efecto de daño por Tween
 		spriteRenderer.DOColor(damageColor, damageTweenTime).SetLoops(2, LoopType.Yoyo).OnStart(StunPlayer).OnComplete(EndStunPlayer);
 		cameraManager.DamageShake();
+		postProcessingManager.TweenVigenette(0.5f + damageEffectModifier, 0.15f, false);
+		damageEffectModifier += 0.2f;
 
 		//Aplicar efecto de Knokback
 		Knockback();
 
 		if (currentHp <= 0 && gameManager != null)
 		{
+			postProcessingManager.TweenVigenette(1, 0.15f, true);
 			gameManager.GameOver();
 		}
 	}
